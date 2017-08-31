@@ -42,5 +42,5 @@ deploy:
 		echo Already on GL, nothing to do...;\
 	else\
 		echo Deploying source code to GL...;\
-		sshpass -f ~/password.txt scp -r "$(FILES)" $(USERNAME)@$(HOSTNAME):cmsc341/$(PROJECT)/;\
+		sshpass -f ~/password.txt rsync -rv --delete $(FILES) $(USERNAME)@$(HOSTNAME):cmsc341/$(PROJECT)/;\
 	fi\
