@@ -43,7 +43,7 @@ clean:
 ##
 
 deploy:
-	@if [ "$(THISHOST)" == "$(HOSTNAME)" ]; then\
+	if [ "$(THISHOST)" == "$(HOSTNAME)" ]; then\
 		echo Already on GL, nothing to do...;\
 	else\
 		sshpass -f ~/password.txt rsync -rv --ignore-missing-args \
