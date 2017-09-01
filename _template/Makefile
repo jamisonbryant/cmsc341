@@ -11,14 +11,16 @@ USERNAME = jbryant2
 THISHOST = $(shell hostname)
 HOSTNAME = linux1.gl.umbc.edu
 PROJECT = $(shell basename `pwd`)
+
+# Customize these commands for each project
 BUILDCMD = g++
+RUNCMD = ./a.out
 
 ##
 # Compiles and builds the program.
 ##
 
 build:
-	echo Building...
 	$(BUILDCMD)
 
 ##
@@ -26,7 +28,7 @@ build:
 ##
 
 run:
-	echo Running...
+	$(RUNCMD)
 
 ##
 # Deletes temp and trash files from the dir.
