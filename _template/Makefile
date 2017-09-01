@@ -6,11 +6,12 @@
 # that are commonly repeated so I don't have to type them in 3 billion times.
 ################################################################################
 
-FILES = src/*.cpp include/*.h README.txt
+FILES = src/*.cpp include/*.h README.txt Makefile
 USERNAME = jbryant2
 THISHOST = $(shell hostname)
 HOSTNAME = linux1.gl.umbc.edu
 PROJECT = $(shell basename `pwd`)
+BUILDCMD = g++
 
 ##
 # Compiles and builds the program.
@@ -18,6 +19,7 @@ PROJECT = $(shell basename `pwd`)
 
 build:
 	echo Building...
+	$(BUILDCMD)
 
 ##
 # Runs the program.
@@ -32,6 +34,7 @@ run:
 
 clean:
 	echo Cleaning...
+	rm *.out
 
 ##
 # Deploys source code files to GL
@@ -42,5 +45,6 @@ deploy:
 		echo Already on GL, nothing to do...;\
 	else\
 		echo Deploying source code to GL...;\
-		sshpass -f ~/password.txt rsync -rv --delete $(FILES) $(USERNAME)@$(HOSTNAME):cmsc341/$(PROJECT)/;\
+		sshpass -f ~/password.txt rsync -rv --ignore-missing-args \
+			--delete $(FILES) $(USERNAME)@$(HOSTNAME):cmsc341/$(PROJECT)/;\
 	fi\
