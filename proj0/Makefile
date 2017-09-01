@@ -13,8 +13,8 @@ HOSTNAME = linux1.gl.umbc.edu
 PROJECT = $(shell basename `pwd`)
 
 # Customize these commands for each project
-BUILDCMD = g++
-RUNCMD = ./a.out
+BUILDCMD = g++ -gstabs+ -I ../../00Proj0 ../../00Proj0/chaos.cpp proj0.cpp -o proj0.out 
+RUNCMD = ./proj0.out
 
 ##
 # Compiles and builds the program.
