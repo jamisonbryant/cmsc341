@@ -13,8 +13,9 @@ HOSTNAME = linux1.gl.umbc.edu
 PROJECT = $(shell basename `pwd`)
 
 # Customize these commands for each project
-BUILDCMD = g++
-RUNCMD = ./a.out
+EXECUTABLE = a.out
+BUILDCMD = g++ -g
+RUNCMD = ./$(EXECUTABLE)
 
 ##
 # Compiles and builds the program.
@@ -29,6 +30,13 @@ build:
 
 run:
 	$(RUNCMD)
+
+##
+# Launches the program debugger.
+##
+
+debug:
+	gdb $(EXECUTABLE) 
 
 ##
 # Deletes temp and trash files from the dir.
