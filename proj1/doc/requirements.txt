@@ -1,0 +1,31 @@
+Requirement: Place the implementation of the InnerCB member functions in a file
+called InnerCB.cpp and the implementation of the CBofCB member functions in
+CBofCB.cpp.
+
+Requirement: All member functions must be implemented from scratch. In
+particular, you are not allowed to use any classes from the Standard Template
+Library (STL), not even vector.
+
+Requirement: You are not allowed to add anything or remove anything from these
+header files. Your submission must compile with the original .h files without
+modification.
+
+Requirement: Do not use global variables to circumvent the prohibition from
+altering InnerCB.h and CBofCB.h. Actually, just don't use global variables
+period.
+
+Requirement: Your code must compile on GL with the exact Unix commands given
+below. (See "How to Submit".)
+
+Requirement: Your code must not have any memory leaks. When you run your code
+under valgrind on GL, it must report:
+
+   All heap blocks were freed -- no leaks are possible
+
+Requirement: Your implementation must be efficient. Tests p1test11.cpp,
+p1test12.cpp and p1test13.cpp should take approximately 16, 32 and 64 seconds
+of user time to run on GL. The actual number of seconds do not matter as much
+as the fact that each program takes about twice as long as the previous one.
+This shows that your implementation is taking linear time.
+
+
