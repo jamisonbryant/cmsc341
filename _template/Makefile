@@ -22,6 +22,7 @@ RUNCMD = ./$(EXECUTABLE)
 ##
 
 build:
+	mkdir bin
 	$(BUILDCMD)
 
 ##
