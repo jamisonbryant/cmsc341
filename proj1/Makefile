@@ -16,41 +16,45 @@ PROJECT = $(shell basename `pwd`)
 # Compiles and builds the program.
 ##
 
-build:
+build: clean
 	mkdir bin
-	g++ -I include test/p1test01.cpp src/InnerCB.cpp -o bin/t01.out
-	g++ -I include test/p1test02.cpp src/InnerCB.cpp -o bin/t02.out
-	g++ -I include test/p1test03.cpp src/InnerCB.cpp -o bin/t03.out
-	g++ -I include test/p1test04.cpp src/InnerCB.cpp -o bin/t04.out
-	g++ -I include test/p1test05.cpp src/InnerCB.cpp -o bin/t05.out
-	g++ -I include test/p1test06.cpp src/InnerCB.cpp src/CBofCB.cpp -o bin/t06.out
-	g++ -I include test/p1test07.cpp src/InnerCB.cpp src/CBofCB.cpp -o bin/t07.out
-	g++ -I include test/p1test08.cpp src/InnerCB.cpp src/CBofCB.cpp -o bin/t08.out
-	g++ -I include test/p1test09.cpp src/InnerCB.cpp src/CBofCB.cpp -o bin/t09.out
-	g++ -I include test/p1test10.cpp src/InnerCB.cpp src/CBofCB.cpp -o bin/t10.out
-	g++ -I include test/p1test11.cpp src/InnerCB.cpp src/CBofCB.cpp -o bin/t11.out
-	g++ -I include test/p1test12.cpp src/InnerCB.cpp src/CBofCB.cpp -o bin/t12.out
-	g++ -I include test/p1test13.cpp src/InnerCB.cpp src/CBofCB.cpp -o bin/t13.out
+	g++ -g -I include src/InnerCBTest.cpp src/InnerCB.cpp -o bin/InnerCBTest.out
+	#g++ -I include test/p1test01.cpp src/InnerCB.cpp -o bin/t01.out
+	#g++ -I include test/p1test02.cpp src/InnerCB.cpp -o bin/t02.out
+	#g++ -I include test/p1test03.cpp src/InnerCB.cpp -o bin/t03.out
+	#g++ -I include test/p1test04.cpp src/InnerCB.cpp -o bin/t04.out
+	#g++ -I include test/p1test05.cpp src/InnerCB.cpp -o bin/t05.out
+	#g++ -I include test/p1test06.cpp src/InnerCB.cpp src/CBofCB.cpp -o bin/t06.out
+	#g++ -I include test/p1test07.cpp src/InnerCB.cpp src/CBofCB.cpp -o bin/t07.out
+	#g++ -I include test/p1test08.cpp src/InnerCB.cpp src/CBofCB.cpp -o bin/t08.out
+	#g++ -I include test/p1test09.cpp src/InnerCB.cpp src/CBofCB.cpp -o bin/t09.out
+	#g++ -I include test/p1test10.cpp src/InnerCB.cpp src/CBofCB.cpp -o bin/t10.out
+	#g++ -I include test/p1test11.cpp src/InnerCB.cpp src/CBofCB.cpp -o bin/t11.out
+	#g++ -I include test/p1test12.cpp src/InnerCB.cpp src/CBofCB.cpp -o bin/t12.out
+	#g++ -I include test/p1test13.cpp src/InnerCB.cpp src/CBofCB.cpp -o bin/t13.out
 
 ##
 # Runs the program.
 ##
 
-run:
-	$(RUNCMD)
+run: build
+	./bin/InnerCBTest.out
+	#$(RUNCMD)
 
 ##
 # Launches the program debugger.
 ##
 
 debug:
-	gdb $(EXECUTABLE) 
+	gdb ./bin/InnerCBTest.out
+	#gdb $(EXECUTABLE) 
 
 ##
 # Deletes temp and trash files from the dir.
 ##
 
 clean:
+	rm -rf bin
 	rm -f *.out
 	rm -f typescript
 
