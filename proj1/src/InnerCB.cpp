@@ -47,7 +47,14 @@ InnerCB::InnerCB(int n)
 // copy constructor
 InnerCB::InnerCB(const InnerCB& other)
 {
-    *m_buffer   = *other.m_buffer;
+    // safely copy buffer data
+    m_buffer = new int[other.m_capacity];
+
+    for (int i = 0; i < other.m_capacity; i++) {
+        m_buffer[i] = other.m_buffer[i];
+    }
+
+    // copy rest of object data
     m_capacity  = other.m_capacity;
     m_size      = other.m_size;
     m_start     = other.m_start;
@@ -65,7 +72,7 @@ void InnerCB::enqueue(int data)
 {
     // check if queue is full
     // if so throw exception
-    if (m_size == m_capacity) {
+    if (isFull()) {
         throw new overflow_error("Queue is full"); 
     }
 
@@ -73,7 +80,7 @@ void InnerCB::enqueue(int data)
     m_buffer[m_end] = data;
     
     // calculate new end index
-    // and update queue capacity
+    // and update queue size
     m_end = (m_end + 1) % m_capacity;
     m_size++;
 }
@@ -91,7 +98,7 @@ int InnerCB::dequeue()
     m_buffer[m_start] = 0;
 
     // calculate new start index
-    // and update queue capacity
+    // and update queue size
     m_start = (m_start + 1) % m_capacity;
     m_size--;
 }
@@ -127,8 +134,17 @@ int InnerCB::size()
 // overloaded assignment operator
 const InnerCB& InnerCB::operator=(const InnerCB& rhs)
 {
-    // copy object data
-    m_buffer    = rhs.m_buffer;
+    // deallocate memory for LHS object
+    delete[] m_buffer;
+    
+    // safely copy buffer data
+    m_buffer = new int[rhs.m_capacity];
+
+    for (int i = 0; i < rhs.m_capacity; i++) {
+        m_buffer[i] = rhs.m_buffer[i];
+    }
+
+    // copy rest of object data
     m_capacity  = rhs.m_capacity;
     m_size      = rhs.m_size;
     m_start     = rhs.m_start;
