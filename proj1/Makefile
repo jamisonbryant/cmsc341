@@ -13,32 +13,62 @@ HOSTNAME = linux1.gl.umbc.edu
 PROJECT = $(shell basename `pwd`)
 
 ##
+# Prepares the environment for the build process
+##
+prepare: clean
+	mkdir bin
+
+##
 # Compiles and builds the program.
 ##
 
-build: clean
-	mkdir bin
-	g++ -g -I include src/InnerCBTest.cpp src/InnerCB.cpp -o bin/InnerCBTest.out
-	#g++ -I include test/p1test01.cpp src/InnerCB.cpp -o bin/t01.out
-	#g++ -I include test/p1test02.cpp src/InnerCB.cpp -o bin/t02.out
-	#g++ -I include test/p1test03.cpp src/InnerCB.cpp -o bin/t03.out
-	#g++ -I include test/p1test04.cpp src/InnerCB.cpp -o bin/t04.out
-	#g++ -I include test/p1test05.cpp src/InnerCB.cpp -o bin/t05.out
-	#g++ -I include test/p1test06.cpp src/InnerCB.cpp src/CBofCB.cpp -o bin/t06.out
-	#g++ -I include test/p1test07.cpp src/InnerCB.cpp src/CBofCB.cpp -o bin/t07.out
-	#g++ -I include test/p1test08.cpp src/InnerCB.cpp src/CBofCB.cpp -o bin/t08.out
-	#g++ -I include test/p1test09.cpp src/InnerCB.cpp src/CBofCB.cpp -o bin/t09.out
-	#g++ -I include test/p1test10.cpp src/InnerCB.cpp src/CBofCB.cpp -o bin/t10.out
-	#g++ -I include test/p1test11.cpp src/InnerCB.cpp src/CBofCB.cpp -o bin/t11.out
-	#g++ -I include test/p1test12.cpp src/InnerCB.cpp src/CBofCB.cpp -o bin/t12.out
-	#g++ -I include test/p1test13.cpp src/InnerCB.cpp src/CBofCB.cpp -o bin/t13.out
+build: prepare
+
+t01: prepare
+	g++ -g -I include test/p1test01.cpp src/InnerCB.cpp -o bin/t01.out
+
+t02: prepare
+	g++ -g -I include test/p1test02.cpp src/InnerCB.cpp -o bin/t02.out
+	
+t03: prepare
+	g++ -g -I include test/p1test03.cpp src/InnerCB.cpp -o bin/t03.out
+
+t04: prepare
+	g++ -g -I include test/p1test04.cpp src/InnerCB.cpp -o bin/t04.out
+
+t05: prepare
+	g++ -g -I include test/p1test05.cpp src/InnerCB.cpp -o bin/t05.out
+
+t06: prepare
+	g++ -g -I include test/p1test06.cpp src/InnerCB.cpp src/CBofCB.cpp -o bin/t06.out
+
+t07: prepare
+	g++ -g -I include test/p1test07.cpp src/InnerCB.cpp src/CBofCB.cpp -o bin/t07.out
+
+t08: prepare
+	g++ -g -I include test/p1test08.cpp src/InnerCB.cpp src/CBofCB.cpp -o bin/t08.out
+
+t09: prepare
+	g++ -g -I include test/p1test09.cpp src/InnerCB.cpp src/CBofCB.cpp -o bin/t09.out
+
+t10: prepare
+	g++ -g -I include test/p1test10.cpp src/InnerCB.cpp src/CBofCB.cpp -o bin/t10.out
+
+t11: prepare
+	g++ -g -I include test/p1test11.cpp src/InnerCB.cpp src/CBofCB.cpp -o bin/t11.out
+
+t12: prepare
+	g++ -g -I include test/p1test12.cpp src/InnerCB.cpp src/CBofCB.cpp -o bin/t12.out
+
+t13: prepare
+	g++ -g -I include test/p1test13.cpp src/InnerCB.cpp src/CBofCB.cpp -o bin/t13.out
+
 
 ##
 # Runs the program.
 ##
 
 run: build
-	./bin/InnerCBTest.out
 	#$(RUNCMD)
 
 ##
@@ -46,7 +76,6 @@ run: build
 ##
 
 debug:
-	gdb ./bin/InnerCBTest.out
 	#gdb $(EXECUTABLE) 
 
 ##
