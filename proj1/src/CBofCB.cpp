@@ -37,10 +37,14 @@ using namespace std;
 // default constructor
 CBofCB::CBofCB()
 {
-    InnerCB m_buffers[m_obCapacity];
+    // initialize object data
+    *m_buffers = new InnerCB[m_obCapacity];
     m_obSize = 0;
     m_oldest = 0;
     m_newest = 0;
+
+    // create first circular buffer
+    m_buffers[0] = new InnerCB(10);
 }
 
 // copy constructor
@@ -75,11 +79,11 @@ void CBofCB::enqueue(int data)
         m_obSize++;
         m_buffers[m_obSize] = new InnerCB(m_buffers[m_newest]->size() * 2);
 
-        // store data in newest queue
-        m_buffers[m_newest]->enqueue(data);
-
         // calculate new newest index
         m_newest = (m_newest + 1) % m_obCapacity;
+
+        // store data in newest queue
+        m_buffers[m_newest]->enqueue(data);
     }
 }
 
@@ -127,8 +131,11 @@ int CBofCB::size()
 // overloaded assignment operator
 const CBofCB& CBofCB::operator=(const CBofCB& rhs)
 {
-    // copy object data
-    *m_buffers  = *rhs.m_buffers;
+    for (int i = 0; i < rhs.m_obSize; i++) {
+        *m_buffers[i]  = *rhs.m_buffers[i];
+    }
+    
+    // copy rest of object data
     m_obSize    = rhs.m_obSize;
     m_oldest    = rhs.m_oldest;
     m_newest    = rhs.m_newest;
