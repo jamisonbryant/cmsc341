@@ -157,25 +157,18 @@ const InnerCB& InnerCB::operator=(const InnerCB& rhs)
 // debugging function; prints out contents
 void InnerCB::dump()
 {
-    // will be printed like so:
-    //
-    // InnerCB::dump(): m_size = x
-    // {
-    //     [00] => a 
-    //     [01] => b
-    //     [02] => c
-    //     ...
-    //     [99] => z
-    // }
+    if (m_size != 0) {
+        cout << "InnerCB " << this << " { size: " << m_size << ", data: ";
 
-    cout << "InnerCB::dump(): m_size = " << size() << endl << "{" << endl;
+        for (int i = 0; i < m_capacity; i++) {
+            cout << m_buffer[i];
+            if (i < m_capacity - 1) cout << ", ";
+        }
 
-    for (int i = 0; i < m_capacity; i++) {
-        cout << "    [" << setfill('0') << setw(2) << i << "] => " 
-             << m_buffer[i] << endl;
+        cout << " }";
+    } else {
+        cout << "InnerCB " << "{ size: " << m_size << ", data: none }";
     }
-
-    cout << "}" << endl;
 }
 
 

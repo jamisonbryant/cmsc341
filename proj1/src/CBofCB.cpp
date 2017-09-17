@@ -22,6 +22,7 @@
 
 // C++ includes
 #include <iostream>
+#include <iomanip>
 #include <stdexcept>
 
 //==============================================================================
@@ -45,6 +46,7 @@ CBofCB::CBofCB()
 
     // create first circular buffer
     m_buffers[0] = new InnerCB(10);
+    m_obSize++;
 }
 
 // copy constructor
@@ -64,7 +66,7 @@ CBofCB::~CBofCB()
 // add item to this data structure
 void CBofCB::enqueue(int data)
 {
-    // check if queue is full
+    // check if all queues are full
     // if so throw exception
     if (isFull()) {
         throw new overflow_error("Buffer is full");
@@ -74,13 +76,14 @@ void CBofCB::enqueue(int data)
     // if overflow, create a new queue and store it in that
     try {
         m_buffers[m_newest]->enqueue(data);
-    } catch(overflow_error e1) {
-        // create new queue
-        m_obSize++;
-        m_buffers[m_obSize] = new InnerCB(m_buffers[m_newest]->size() * 2);
-
-        // calculate new newest index
+    } catch(overflow_error* e1) {
+        // calculate new indexes
+        int oldCapacity = m_buffers[m_newest]->size();
         m_newest = (m_newest + 1) % m_obCapacity;
+
+        // create new queue
+        m_buffers[m_newest] = new InnerCB(oldCapacity * 2);
+        m_obSize++;
 
         // store data in newest queue
         m_buffers[m_newest]->enqueue(data);
@@ -106,7 +109,7 @@ int CBofCB::dequeue()
 // returns true if cannot add more items
 bool CBofCB::isFull()
 {
-    return m_buffers[m_newest]->isFull();
+    return (m_obSize == m_obCapacity) && m_buffers[m_newest]->isFull();
 } 
 
 // returns true if no items stored in data structure
@@ -144,6 +147,34 @@ const CBofCB& CBofCB::operator=(const CBofCB& rhs)
 // debugging function, prints out contents of data structure
 void CBofCB::dump()
 {
-}
+    if (m_obSize > 0) {
+        cout << "CBofCB " << this << " {" << endl;
+        cout << "    size: " << m_obSize << "," << endl;
+        cout << "    data: {" << endl;
+
+        for (int i = 0; i < m_obSize; i++) {
+            cout << "        ";
+
+            if (i == m_oldest) {
+                cout << "[O] ";
+            } else if (i == m_newest) {
+                cout << "[N] ";
+            } else {
+                cout << "[ ] ";
+            }
+
+            m_buffers[i]->dump();
+            if (i < m_obSize - 1) cout << "," << endl;
+        }
+
+        cout << endl << "    }" << endl;
+        cout << "}" << endl;
+    } else {
+        cout << "CBofCB " << this << " {" << endl;
+        cout << "    size: " << m_obSize << "," << endl;
+        cout << "    data: { }" << endl;
+        cout << "}" << endl;
+    }
+} 
 
 
