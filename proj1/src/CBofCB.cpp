@@ -93,17 +93,27 @@ void CBofCB::enqueue(int data)
 // remove item from this data structure
 int CBofCB::dequeue()
 {
-    // get data from oldest queue
-    int data = m_buffers[m_oldest]->dequeue();
+    if (isEmpty()) {
+        throw new underflow_error("Buffer is empty");
+    } else {
+        // get data from oldest queue
+        int data = m_buffers[m_oldest]->dequeue();
 
-    // check if oldest queue is now empty
-    // if so, deallocate it
-    if (m_buffers[m_oldest]->isEmpty()) {
-        delete m_buffers[m_oldest];
+        // check if oldest queue is now empty
+        // if so, deallocate it
+        // (but only if there is at least one other queue in the buffer)
+        if (m_buffers[m_oldest]->isEmpty() && m_obSize > 1) {
+            delete m_buffers[m_oldest];
+            m_obSize--;
+            
+            // calculate next oldest queue
+            m_oldest = (m_oldest + 1) % m_obCapacity;
+            //m_oldest++;
+        }
+
+        // return dequeued data
+        return data;
     }
-
-    // return dequeued data
-    return data;
 }
 
 // returns true if cannot add more items
@@ -128,7 +138,13 @@ bool CBofCB::isEmpty()
 // Note: not the number of InnerCB's
 int CBofCB::size()
 {
-    return m_obSize;
+    int totalSize = 0;
+
+    for (int i = 0; i < m_obSize; i++) {
+        totalSize += m_buffers[i]->size(); 
+    }
+
+    return totalSize;
 }
 
 // overloaded assignment operator
@@ -148,7 +164,7 @@ const CBofCB& CBofCB::operator=(const CBofCB& rhs)
 void CBofCB::dump()
 {
     if (m_obSize > 0) {
-        cout << "CBofCB " << this << " {" << endl;
+        cout << "CBofCB@" << this << " {" << endl;
         cout << "    size: " << m_obSize << "," << endl;
         cout << "    data: {" << endl;
 
@@ -163,7 +179,9 @@ void CBofCB::dump()
                 cout << "[ ] ";
             }
 
-            m_buffers[i]->dump();
+            //m_buffers[i]->dump();     // uncomment this line for verbose dump
+            
+            cout << m_buffers[i]->size() << "/" << m_buffers[i]->capacity();
             if (i < m_obSize - 1) cout << "," << endl;
         }
 

@@ -95,12 +95,16 @@ int InnerCB::dequeue()
     }
 
     // remove item from queue
+    int data = m_buffer[m_start];
     m_buffer[m_start] = 0;
 
     // calculate new start index
     // and update queue size
     m_start = (m_start + 1) % m_capacity;
     m_size--;
+
+    // return dequeued item
+    return data;
 }
 
 // true if no space left in buffer
@@ -158,7 +162,8 @@ const InnerCB& InnerCB::operator=(const InnerCB& rhs)
 void InnerCB::dump()
 {
     if (m_size != 0) {
-        cout << "InnerCB " << this << " { size: " << m_size << ", data: ";
+        cout << "InnerCB@" << this << " { size: " << m_size 
+                << "/" << m_capacity << ", data: ";
 
         for (int i = 0; i < m_capacity; i++) {
             cout << m_buffer[i];
@@ -167,7 +172,8 @@ void InnerCB::dump()
 
         cout << " }";
     } else {
-        cout << "InnerCB " << "{ size: " << m_size << ", data: none }";
+        cout << "InnerCB@" << this << " { size: " << m_size 
+                << "/" << m_capacity << ", data: null }";
     }
 }
 
