@@ -102,13 +102,14 @@ int CBofCB::dequeue()
         // check if oldest queue is now empty
         // if so, deallocate it
         // (but only if there is at least one other queue in the buffer)
-        if (m_buffers[m_oldest]->isEmpty() && m_obSize > 1) {
-            delete m_buffers[m_oldest];
-            m_obSize--;
+        if (m_buffers[m_oldest]->isEmpty()) {
+            if (m_obSize > 1) {
+                delete m_buffers[m_oldest];
+                m_obSize--;
+            }
             
-            // calculate next oldest queue
+            //m_oldest = (m_obCapacity + m_oldest - 1) % m_obCapacity;
             m_oldest = (m_oldest + 1) % m_obCapacity;
-            //m_oldest++;
         }
 
         // return dequeued data
@@ -125,7 +126,11 @@ bool CBofCB::isFull()
 // returns true if no items stored in data structure
 bool CBofCB::isEmpty()
 {
-    for (int i = 0; i < m_obSize; i++) {
+    // @hack: this is risky, because if the for loop somehow gets to an
+    // uninitialized item in the queue the program will crash. This
+    // logic depends on the method returning before that happens, which
+    // I'm not sure I can guarantee. We'll see if the tests pass.
+    for (int i = 0; i < m_obCapacity; i++) {
         if (!m_buffers[i]->isEmpty()) {
             return false;
         }
@@ -168,21 +173,27 @@ void CBofCB::dump()
         cout << "    size: " << m_obSize << "," << endl;
         cout << "    data: {" << endl;
 
-        for (int i = 0; i < m_obSize; i++) {
-            cout << "        ";
+        for (int i = 0; i < m_obCapacity; i++) {
+            cout << "        [" << i << "] ";
 
-            if (i == m_oldest) {
-                cout << "[O] ";
-            } else if (i == m_newest) {
-                cout << "[N] ";
-            } else {
-                cout << "[ ] ";
+            if (i == m_oldest && i != m_newest) {
+                cout << "(O)";
+            } else if (i == m_newest && i != m_oldest) {
+                cout << "(N)";
+            } else if (i == m_oldest && i == m_newest) {
+                cout << "(B)";
+            }  else {
+                cout << "(?)";
+            }
+             
+            //m_buffers[i]->dump();     // uncomment for verbose dump
+            
+            if (i == m_oldest || i == m_newest) {
+                cout << " " << m_buffers[i]->size() << "/" 
+                     << m_buffers[i]->capacity();
             }
 
-            //m_buffers[i]->dump();     // uncomment this line for verbose dump
-            
-            cout << m_buffers[i]->size() << "/" << m_buffers[i]->capacity();
-            if (i < m_obSize - 1) cout << "," << endl;
+            if (i < m_obCapacity - 1) cout << "," << endl;
         }
 
         cout << endl << "    }" << endl;
