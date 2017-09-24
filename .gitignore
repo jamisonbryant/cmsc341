@@ -119,3 +119,7 @@ tags
 ### Shell ###
 # shell recording files
 typescript
+
+### GDB ###
+# gdb auto-config file
+.gdbinit
