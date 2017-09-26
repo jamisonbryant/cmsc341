@@ -151,8 +151,9 @@ int CBofCB::size()
 {
     int totalSize = 0;
 
-    for (int i = 0; i < m_obSize; i++) {
-        totalSize += m_buffers[i]->size(); 
+    for (int i = 0; i < m_obCapacity; i++) {
+        int bufSize = m_buffers[i]->size();
+        totalSize += bufSize; 
     }
 
     return totalSize;

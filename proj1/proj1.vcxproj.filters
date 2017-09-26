@@ -24,7 +24,7 @@
     <ClCompile Include="src\CBofCB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="test\p1test07.cpp">
+    <ClCompile Include="test\p1test09.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
   </ItemGroup>

@@ -118,7 +118,7 @@
   <ItemGroup>
     <ClCompile Include="src\CBofCB.cpp" />
     <ClCompile Include="src\InnerCB.cpp" />
-    <ClCompile Include="test\p1test07.cpp" />
+    <ClCompile Include="test\p1test09.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\CBofCB.h" />
