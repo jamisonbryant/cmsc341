@@ -47,6 +47,11 @@ CBofCB::CBofCB()
     // create first circular buffer
     m_buffers[0] = new InnerCB(10);
     m_obSize++;
+
+    // create rest of circular buffers
+    for (int i = 1; i < m_obCapacity; i++) {
+        m_buffers[i] = new InnerCB(0);
+    }
 }
 
 // copy constructor
@@ -61,6 +66,7 @@ CBofCB::CBofCB(const CBofCB& other)
 // destructor
 CBofCB::~CBofCB()
 {
+    delete *m_buffers;
 }
 
 // add item to this data structure
@@ -188,10 +194,8 @@ void CBofCB::dump()
              
             //m_buffers[i]->dump();     // uncomment for verbose dump
             
-            if (i == m_oldest || i == m_newest) {
-                cout << " " << m_buffers[i]->size() << "/" 
-                     << m_buffers[i]->capacity();
-            }
+            cout << " " << m_buffers[i]->size() << "/" 
+                 << m_buffers[i]->capacity();
 
             if (i < m_obCapacity - 1) cout << "," << endl;
         }
