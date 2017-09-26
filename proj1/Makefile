@@ -6,7 +6,7 @@
 # that are commonly repeated so I don't have to type them in 3 billion times.
 ################################################################################
 
-FILES = src/*.cpp include/*.h README.txt Makefile
+FILES = src/*.cpp include/*.h test/*.cpp Makefile
 USERNAME = jbryant2
 THISHOST = $(shell hostname)
 HOSTNAME = linux1.gl.umbc.edu
