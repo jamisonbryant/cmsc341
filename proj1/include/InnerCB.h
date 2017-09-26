@@ -12,7 +12,7 @@
 class InnerCB {
 
 public:
-   // Constructor, default size is 10.
+    // Constructor, default size is 10.
    InnerCB(int n=10) ;
 
    // Copy constructor

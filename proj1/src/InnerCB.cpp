@@ -54,6 +54,9 @@ InnerCB::InnerCB(const InnerCB& other)
         m_buffer[i] = other.m_buffer[i];
     }
 
+    // delete other object's buffer
+    delete[] other.m_buffer;
+
     // copy rest of object data
     m_capacity  = other.m_capacity;
     m_size      = other.m_size;
