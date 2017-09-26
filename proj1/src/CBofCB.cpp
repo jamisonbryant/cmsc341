@@ -110,7 +110,7 @@ int CBofCB::dequeue()
         // (but only if there is at least one other queue in the buffer)
         if (m_buffers[m_oldest]->isEmpty()) {
             if (m_obSize > 1) {
-                delete m_buffers[m_oldest];
+                //delete m_buffers[m_oldest];
                 m_obSize--;
             }
             
@@ -169,6 +169,9 @@ const CBofCB& CBofCB::operator=(const CBofCB& rhs)
     m_obSize    = rhs.m_obSize;
     m_oldest    = rhs.m_oldest;
     m_newest    = rhs.m_newest;
+
+    // return the object
+    return *this;
 }
 
 // debugging function, prints out contents of data structure
