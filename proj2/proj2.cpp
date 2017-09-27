@@ -36,8 +36,6 @@ using namespace std;
  */
 int main()
 {
-    cout << string(50, '\n');
-
     cout << "************************************************************************" << endl;
     cout << "CMSC 341 Project 2 Driver File" << endl;
     cout << "By: Jamison Bryant <jbryant93@umbc.edu>" << endl;
@@ -62,7 +60,6 @@ int main()
                 // Run composition test
                 chosen = true;
                 cout << endl << endl << "Running composition test..." << endl;
-                cout << string(50, '\n');
                 test.comptest();
                 break;
 
@@ -70,7 +67,6 @@ int main()
                 // Run time test 1
                 chosen = true;
                 cout << endl << endl << "Running time test 1..." << endl;
-                cout << string(50, '\n');
                 test.timetest1();
                 break;
 
@@ -78,7 +74,6 @@ int main()
                 // Run time test 2
                 chosen = true;
                 cout << endl << endl << "Running time test 2..." << endl;
-                cout << string(50, '\n');
                 test.timetest2();
                 break;
 
@@ -86,7 +81,6 @@ int main()
                 // Run time test 3
                 chosen = true;
                 cout << endl << endl << "Running time test 3..." << endl;
-                cout << string(50, '\n');
                 test.timetest3();
                 break;
 
