@@ -51,56 +51,60 @@ SqList::~SqList(void)
 
 const SqList& SqList::operator=(const SqList& rhs) 
 {
+    return SqList();
 }
 
 Int341& SqList::operator[](int pos)
 {
+    return Int341();
 }
 
 //////////////////////////////////////////////////////////////////////////// 
 // PUBLIC METHODS
 //////////////////////////////////////////////////////////////////////////// 
 
-void inspector(void)
+void SqList::consolidate(void)
 {
 }
 
-void consolidate(void)
+void SqList::addFirst(const Int341& x)
+{
+    
+}
+
+void SqList::addLast(const Int341& x)
 {
 }
 
-void addFirst(const Int341& x)
+void SqList::add(int pos, const Int341& x)
 {
 }
 
-void addLast(const Int341& x)
+Int341 SqList::removeFirst(void)
 {
+    return Int341();
 }
 
-void add(int pos, const Int341& x)
+Int341 SqList::removeLast(void)
 {
+    return Int341();
 }
 
-Int341 removeFirst(void)
+Int341 SqList::remove(int pos)
 {
+    return Int341();
 }
 
-Int341 removeLast(void)
+int SqList::indexOf(const Int341& data)
 {
+    return 0;
 }
 
-Int341 remove(int pos)
+int SqList::numItems(void)
 {
+    return 0;
 }
 
-int indexOf(const Int341& data)
-{
-}
-
-int numItems(void)
-{
-}
-
-void dump(void)
+void SqList::dump(void)
 {
 }
