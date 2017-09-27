@@ -16,9 +16,6 @@
     <Filter Include="Source Files\Classes">
       <UniqueIdentifier>{f21d7478-83b5-46ba-a0d7-389a89953b04}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Tests">
-      <UniqueIdentifier>{59c964e1-3163-4481-ac14-72f0b2d54ddd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Classes">
       <UniqueIdentifier>{d251a964-0e64-41d4-87ff-59995c53022e}</UniqueIdentifier>
     </Filter>
@@ -28,6 +25,9 @@
       <Filter>Header Files\Classes</Filter>
     </ClInclude>
     <ClInclude Include="SqList.h">
+      <Filter>Header Files\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Test.h">
       <Filter>Header Files\Classes</Filter>
     </ClInclude>
   </ItemGroup>
@@ -41,17 +41,8 @@
     <ClCompile Include="SqList.cpp">
       <Filter>Source Files\Classes</Filter>
     </ClCompile>
-    <ClCompile Include="p2comptest.cpp">
-      <Filter>Source Files\Tests</Filter>
-    </ClCompile>
-    <ClCompile Include="p2timetest1.cpp">
-      <Filter>Source Files\Tests</Filter>
-    </ClCompile>
-    <ClCompile Include="p2timetest2.cpp">
-      <Filter>Source Files\Tests</Filter>
-    </ClCompile>
-    <ClCompile Include="p2timetest3.cpp">
-      <Filter>Source Files\Tests</Filter>
+    <ClCompile Include="Test.cpp">
+      <Filter>Source Files\Classes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -113,15 +113,13 @@
   <ItemGroup>
     <ClInclude Include="Int341.h" />
     <ClInclude Include="SqList.h" />
+    <ClInclude Include="Test.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Int341.cpp" />
-    <ClCompile Include="p2comptest.cpp" />
-    <ClCompile Include="p2timetest1.cpp" />
-    <ClCompile Include="p2timetest2.cpp" />
-    <ClCompile Include="p2timetest3.cpp" />
     <ClCompile Include="proj2.cpp" />
     <ClCompile Include="SqList.cpp" />
+    <ClCompile Include="Test.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

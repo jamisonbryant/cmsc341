@@ -1,0 +1,33 @@
+#pragma once
+
+/**
+ * file: Test.h
+ * version: 0.1.0
+ * author: Jamison Bryant <jbryant93@umbc.edu>
+ * 
+ * UMBC CMSC341 Fall 2017 (Chang)
+ * Project 2
+ *
+ * Header file for the Test class. 
+ */
+
+class Test
+{
+public:
+    //////////////////////////////////////////////////////////////////////////// 
+    // CONSTRUCTORS/DESTRUCTOR
+    //////////////////////////////////////////////////////////////////////////// 
+
+    Test();
+    ~Test();
+
+    //////////////////////////////////////////////////////////////////////////// 
+    // PUBLIC METHODS
+    //////////////////////////////////////////////////////////////////////////// 
+
+    int comptest(void);
+    int timetest1(void);
+    int timetest2(void);
+    int timetest3(void);
+};
+

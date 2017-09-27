@@ -28,15 +28,79 @@
 // STL namespaces
 using namespace std;
 
+
 ////////////////////////////////////////////////////////////////////////////////
 // CONSTRUCTORS/DESTRUCTORS
 ////////////////////////////////////////////////////////////////////////////////
 
-SqList::SqList()
+SqList::SqList(void)
 {
 }
 
+SqList::SqList(const SqList& rhs)
+{
+}
 
-SqList::~SqList()
+SqList::~SqList(void)
+{
+}
+
+//////////////////////////////////////////////////////////////////////////// 
+// OPERATOR OVERLOADS
+//////////////////////////////////////////////////////////////////////////// 
+
+const SqList& SqList::operator=(const SqList& rhs) 
+{
+}
+
+Int341& SqList::operator[](int pos)
+{
+}
+
+//////////////////////////////////////////////////////////////////////////// 
+// PUBLIC METHODS
+//////////////////////////////////////////////////////////////////////////// 
+
+void inspector(void)
+{
+}
+
+void consolidate(void)
+{
+}
+
+void addFirst(const Int341& x)
+{
+}
+
+void addLast(const Int341& x)
+{
+}
+
+void add(int pos, const Int341& x)
+{
+}
+
+Int341 removeFirst(void)
+{
+}
+
+Int341 removeLast(void)
+{
+}
+
+Int341 remove(int pos)
+{
+}
+
+int indexOf(const Int341& data)
+{
+}
+
+int numItems(void)
+{
+}
+
+void dump(void)
 {
 }
