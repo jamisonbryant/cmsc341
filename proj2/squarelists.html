@@ -1,0 +1,965 @@
+
+<!-- saved from url=(0064)https://userpages.umbc.edu/~chang/cs341.f17/projects/proj2.shtml -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"> 
+   <title>
+      Project 2, Square Lists,
+      CMSC 341 Fall 2017
+   </title> 
+   <link rel="shortcut icon" href="https://userpages.umbc.edu/~chang/cs341.f17/chang.ico">
+   <link rel="stylesheet" type="text/css" href="./squarelists_files/style-graph.css">
+<style type="text/css">
+:root #content > #right > .dose > .dosesingle,
+:root #content > #center > .dose > .dosesingle,
+:root #header + #content > #left > #rlblock_left
+{ display: none !important; }</style></head> 
+
+<body> 
+    <div id="wrapper">
+      <div id="header">
+	<h1>CMSC 341 Data Structures — All Sections — Fall 2017</h1>
+        <div id="headerimg" class="donotprint"></div>
+	<div id="nav" class="donotprint">
+	  <ul>
+	    <li><a href="https://userpages.umbc.edu/~chang/cs341.f17/">Home</a></li>
+	    <li><a href="https://userpages.umbc.edu/~chang/cs341.f17/sections.shtml">Sections</a></li>
+	    <li><a href="https://userpages.umbc.edu/~chang/cs341.f17/syllabus.shtml">Syllabus</a></li>
+	    <li><a href="https://userpages.umbc.edu/~chang/cs341.f17/schedule.shtml">Schedule</a></li>
+	    <li><a href="https://userpages.umbc.edu/~chang/cs341.f17/homework/">Homework</a></li>
+	    <li><a href="https://userpages.umbc.edu/~chang/cs341.f17/projects/">Projects</a></li>
+	    <li><a href="https://userpages.umbc.edu/~chang/cs341.f17/resources/">Resources</a></li>
+	    <li><a href="https://userpages.umbc.edu/~chang/cs341.f17/faq.shtml">FAQ</a></li>
+	    <li><a href="https://userpages.umbc.edu/~chang/cs341.f17/staff/">Staff</a></li>
+	  </ul>
+	</div>
+     </div>
+     <div id="content">
+
+<!-- END HEADER -->
+
+
+
+
+<h1>Project 2, Square Lists</h1>
+
+<h2>Due: Tuesday, October 10, 8:59:59pm</h2>
+Links:
+[<a href="https://userpages.umbc.edu/~chang/cs341.f17/projects/submission.shtml">Project Submission</a>]
+[<a href="https://userpages.umbc.edu/~chang/cs341.f17/projects/late_policy.shtml">Late Submissions</a>]
+[<a href="https://userpages.umbc.edu/~chang/cs341.f17/projects/grading.shtml">Project Grading</a>]
+[<a href="https://userpages.umbc.edu/~chang/cs341.f17/projects/guidelines.shtml">Grading Guidelines</a>]
+[<a href="https://userpages.umbc.edu/~chang/cs341.f17/projects/academic-conduct.shtml">Academic Conduct</a>]
+
+
+<hr>
+<h2>Change Log</h2>
+<span style="color:orange;"><i>Modified items are in orange.</i></span>
+
+<br><br>
+<p>
+<b>[Tuesday Sep 26, 10:30am]</b> Added sections "Testing", "How to Submit" and
+"A Note on Timing".
+
+</p><p>
+<b>[Tuesday Sep 26, 9:30am]</b> If the position given to <tt>SqList::add()</tt>
+is equal to the number of items in the <tt>SqList</tt> then the data
+should be added at the end of the <tt>SqList</tt>.
+
+
+</p><hr>
+<h2>Objectives</h2>
+
+The objective of this programming assignment is to have you 
+practice implementing a new data structure and also to gain some
+experience using the <tt>list</tt> template container class from 
+the C++ Standard Template Library (STL).
+ 
+
+<hr>
+<h2>Introduction</h2> 
+
+<p>
+For this project, you will implement a <i>square list</i> data
+structure. A square list is a linked list of linked lists where each
+linked list is guaranteed to have 
+<i>O</i>(&#8730;<span style="text-decoration:overline;font-style:italic;">n</span>) 
+items:
+</p>
+
+<div style="border:1px solid grey;margin:2em 5em 2em 5em;">
+<img align="center" src="./squarelists_files/Slide2.jpg">
+<p align="center">
+Fig. 1: A typical square list.
+</p>
+</div>
+
+<p>
+Figure 1 shows a typical square list of 25 integer values. The positions
+of the items are important. The ordering of the items in this example
+is: 3, 2, 5, 10, 21, 9, 32, 14, 41, 20, 23, ..., 15, 1, 11.
+</p>
+
+<p>
+The idea of a square list is that we want to keep the length of the
+top-level and of all the inner lists bounded by
+<i>O</i>(&#8730;<span style="text-decoration:overline;font-style:italic;">n</span>).
+That way we can find the <i>i</i><sup>th</sup> item of the list in
+<i>O</i>(&#8730;<span style="text-decoration:overline;font-style:italic;">n</span>)
+time. For example, if we want to find the 9th item in the list, we can
+progress down the top-level list and check the length of the inner
+lists. We know the 9th item cannot be in the first inner list, since it
+only has 3 items. It also cannot be in the second inner list, since
+the first two lists combined only has 6 items. Instead, we can find
+the 9th item of the square list by looking for the 3rd item of the third
+inner list, which turns out to be 41. 
+</p>
+
+<p>
+To accomplish this search in 
+<i>O</i>(&#8730;<span style="text-decoration:overline;font-style:italic;">n</span>)
+time, we must be able to determine the length of each inner list in O(1) time.
+In the worst case, we have to search through
+<i>O</i>(&#8730;<span style="text-decoration:overline;font-style:italic;">n</span>)
+items of the top-level list before we find the inner list
+that holds the <i>i</i><sup>th</sup> item.
+An additional
+<i>O</i>(&#8730;<span style="text-decoration:overline;font-style:italic;">n</span>)
+steps will allow us to find the desired item in that inner list,
+since the length of each inner list is also
+<i>O</i>(&#8730;<span style="text-decoration:overline;font-style:italic;">n</span>).
+</p>
+
+<p>
+The main difficulty in maintaining a square list is that as we add items
+to and remove items from a square list, the length of the inner lists can
+change. This can happen in two ways. First, obviously, when we add items to or
+remove items from an inner list, the length of that inner list changes.
+Secondly, the length of an inner list relative to 
+<i>O</i>(&#8730;<span style="text-decoration:overline;font-style:italic;">n</span>)
+can also change when we add or remove items elsewhere in the square list
+because doing so changes the value of <i>n</i>. For example, the 5th inner list in
+Figure&nbsp;1 has 5 items. This happens to be exactly 
+&#8730;<span style="text-decoration:overline;">25</span>.
+If we removed all 10 items from the first 3 inner lists, that would
+leave us with only 15 items in the entire square list. 
+<span style="color:orange;">
+After the removals, the length of the last inner list becomes bigger than
+&#8730;<span style="text-decoration:overline;">n</span> even
+though the length of that list didn't change. The length becomes bigger
+than &#8730;<span style="text-decoration:overline;">n</span> because 
+&#8730;<span style="text-decoration:overline;">n</span> dropped from
+&#8730;<span style="text-decoration:overline;">25</span>
+to
+&#8730;<span style="text-decoration:overline;">15</span>,
+and 5 &gt; &#8730;<span style="text-decoration:overline;">15</span>.
+</span>
+</p>
+
+
+<hr>
+<h2>Square List Maintenance</h2>
+
+<p>
+Our goal is to make sure that the top-level list and all the inner lists
+have lengths bounded by
+<i>O</i>(&#8730;<span style="text-decoration:overline;font-style:italic;">n</span>).
+It is too expensive to require that our square list always has
+&#8730;<span style="text-decoration:overline;font-style:italic;">n</span>
+inner lists, each with 
+&#8730;<span style="text-decoration:overline;font-style:italic;">n</span>
+items. Instead, we maintain the following two conditions:
+</p><dl>
+<dt>Condition 1:</dt>
+<dd> Every inner list has &#8804; 
+2 &#8730;<span style="text-decoration:overline;font-style:italic;">n</span> 
+items.
+</dd>
+<dt>Condition 2:</dt>
+<dd> There are no adjacent short inner lists, where <i>short</i> is
+defined as having 
+&#8804; &#8730;<span style="text-decoration:overline;font-style:italic;">n</span>/2
+items.
+</dd>
+</dl>
+
+<p>
+Notice that neither condition says anything about the length of the
+top-level list. Instead, we claim that if Condition&nbsp;2 holds,
+then the top-level list cannot have more than
+4 &#8730;<span style="text-decoration:overline;font-style:italic;">n</span>
+items. Too see this, suppose the contrary. That is, suppose that the
+top-level list has more than
+4 &#8730;<span style="text-decoration:overline;font-style:italic;">n</span>
+items. (Yes, this is the beginning of a proof by contradiction.)
+Then, there must be more than 
+2&nbsp;&#8730;<span style="text-decoration:overline;font-style:italic;">n</span>
+inner lists that are not short (otherwise, two of the short inner lists
+would be adjacent). Thus, the total number of items in these non-short
+lists must exceed
+2 &#8730;<span style="text-decoration:overline;font-style:italic;">n</span>
+× 
+&#8730;<span style="text-decoration:overline;font-style:italic;">n</span>/2
+= <i>n</i>. This is a contradiction because n <i>is</i> the number of items
+(by definition) and cannot exceed itself.
+Therefore, the number of inner lists (and thus the length of the
+top-level list) must be bounded by 
+4&nbsp;&#8730;<span style="text-decoration:overline;font-style:italic;">n</span>.
+</p>
+
+<p>
+These observations allow us to maintain the 
+<i>O</i>(&#8730;<span style="text-decoration:overline;font-style:italic;">n</span>)
+bounds on the lengths of the top-level list and the inner lists using
+the following procedure:
+
+</p><div style="border:1px solid grey;margin:1em 3em;padding:1em 3em;">
+<h3>Consolidate:</h3>
+<ol>
+   <li> Traverse the top-level list.
+   </li><li> Whenever an empty inner list is encountered, remove that inner list.
+   </li><li> Whenever two adjacent short inner lists are encountered,
+        merge them into a single inner list. (See Figures&nbsp;2
+        and&nbsp;3.)
+   </li><li> Whenever an inner list is found to have more than
+        2 &#8730;<span style="text-decoration:overline;font-style:italic;">n</span>
+        items, split them into two lists of equal length.
+        (See Figure&nbsp;4.)
+</li></ol>
+</div>
+<br>
+
+<p>
+Some notes on the Consolidate procedure: 
+</p>
+<ul>
+<p></p><li> Our strategy for this project is to run Consolidate after every
+operation that adds an item to or removes an item from the square list.
+(This is a simplification. See <a href="https://userpages.umbc.edu/~chang/cs341.f17/projects/proj2addendum.shtml">Addendum</a> 
+for a longer explanation.)
+
+<p></p></li><li> When two short lists are merged into one, the order of the items in the
+square list must not change. In Figure&nbsp;2, the original
+order of the items in the short lists where 10, 21, 32, 14.
+In Figure&nbsp;3, the order of the items in the merged list is the same.
+
+<p></p></li><li> We need the data structure for the inner list to support
+a merge operation in constant time. A singly linked list with
+a tail pointer would work.
+
+<p></p></li><li> In Figure&nbsp;4, the inner list that is too long has an even number
+of items. If a long list has an odd number of items, then after the
+split, one list will have one more item than the other. This does
+not affect the asymptotic running time.
+
+<p></p></li><li> When a long list is split, the order of the items must be
+preserved. (See Figure&nbsp;4.)
+
+<p></p></li><li> Without any splits, the total running time for the Consolidate 
+procedure is 
+<i>O</i>(&#8730;<span style="text-decoration:overline;font-style:italic;">n</span>),
+because we can merge short lists in constant time.
+
+<p></p></li><li> The split step can be costly because it takes <i>O(t)</i> time
+to split an inner list in half, where <i>t</i> is the length of the
+inner list.  We can show using <i>amortized analysis</i> that splits do not
+happen very often. The proof is not hard but is beyond the scope of this
+course. The amortized analysis gives an <i>amortized</i> running time
+of 
+<i>O</i>(&#8730;<span style="text-decoration:overline;font-style:italic;">n</span>)
+for most of the list operations (except <tt>indexOf</tt>). The amortized analysis
+shows that any mix of <i>m</i> list operations (not including <tt>indexOf</tt>) 
+will take a total running time of 
+<i>O</i>(<i>m</i>&#8730;<span style="text-decoration:overline;font-style:italic;">n</span>).
+Thus, the <i>amortized</i> time for each of the <i>m</i> square list operations is 
+<i>O</i>(&#8730;<span style="text-decoration:overline;font-style:italic;">n</span>).
+Although, it is tempting to think of the amortized running time as an
+"average" running time, this is not accurate because the amortized
+analysis does not depend on the sequence of operations being "nice" or
+"average" in any way. Even when an adversary chooses the nastiest sequence of
+operations which results in the maximum number of splits,  the total
+running time for that sequence of <i>m</i> operations will still be bounded by
+<i>O</i>(<i>m</i>&#8730;<span style="text-decoration:overline;font-style:italic;">n</span>).
+
+
+
+</li></ul>
+
+<div style="border:1px solid grey;margin:2em 5em 2em 5em;">
+<img align="center" src="./squarelists_files/Slide3.jpg">
+<p align="center">
+Fig. 2: A square list with adjacent short inner lists.
+Note that 2 &lt;
+&#8730;<span style="text-decoration:overline;">22</span>/2 &#8776;
+2.345.
+</p>
+</div>
+
+<div style="border:1px solid grey;margin:2em 5em 2em 5em;">
+<img align="center" src="./squarelists_files/Slide4.jpg">
+<p align="center">
+Fig. 3: Adjacent short lists merged.
+</p>
+</div>
+
+<div style="border:1px solid grey;margin:2em 5em 2em 5em;">
+<img align="center" src="./squarelists_files/Slide5.jpg">
+<p align="center">
+Fig. 4: A long inner list split into two lists.
+Note that 6 &gt;
+2 &#8730;<span style="text-decoration:overline;">8</span> &#8776;
+5.657.
+</p>
+</div>
+
+<hr>
+<h2>Assignment</h2>
+
+<p>
+<i>Note: Running time is one of the most important considerations in
+the implementation of a data structure. Programs that produce the
+desired output but exceed the required running times are considered
+<i>wrong</i> implementations and will receive substantial deductions
+during grading.</i>
+</p>
+
+
+<p>
+Your assignment is to implement a square list data structure as described
+above that hold integer values (more on "integer" later).
+Both the top-level list and the inner lists should be implemented
+using the C++ STL <tt>list</tt> templated container class.
+</p>
+
+<p>
+This assignment specifies the interface between the main program and
+your square list implementation, but you are free to design the class
+as you wish, subject to some requirements below.
+In particular, you are not provided with a header file for the square
+list class.
+Note that design is part of the grading
+criteria, so you do need to apply good design principles to your
+inner list data structure.
+</p>
+
+<p>
+<b>Requirement:</b> Your square list class must be called
+<tt>SqList</tt>. The class definition must be placed in a file
+called <tt>SqList.h</tt> and the member functions must be implemented
+in a file called <tt>SqList.cpp</tt>. File names are case-sensitive
+on GL.
+</p>
+
+<p>
+<b>Requirement:</b> Your square list class must store the square list
+in a list of lists. Your <tt>SqList</tt> class definition must have
+the declaration:
+</p><xmp>   list< list<Int341> > L ;
+</xmp>
+We are omitting the traditional <tt>m_</tt> before this data member's
+name because you will type its name so often. More on <tt>Int341</tt> below.
+<p></p>
+
+<p>
+<b>Requirement:</b> You are given the class definition and
+implementation of the
+<tt>Int341</tt> class in 
+<a href="https://userpages.umbc.edu/~chang/cs341.f17/projects/proj2files/Int341.h"><tt>Int341.h</tt></a>
+and
+<a href="https://userpages.umbc.edu/~chang/cs341.f17/projects/proj2files/Int341.cpp"><tt>Int341.cpp</tt></a>.
+You may not change these files in any way.
+</p>
+
+<p>
+<b>Requirement:</b> You must have a member function named
+<tt>consolidate</tt> with the following signature in your
+<tt>SqList</tt>
+</p><xmp>   void consolidate() ;
+</xmp>
+You must place your code for the consolidate process described above
+in this function. (This is so the graders can find where you implement
+the consolidate process.)
+<b><i>
+The consolidate function must not directly or indirectly invoke 
+the constructor, copy constructor or the assignment operator of the 
+<tt>Int341</tt> class.
+</i></b>
+This member function should run in 
+<i>O</i>(&#8730;<span style="text-decoration:overline;font-style:italic;">n</span>)
+time not counting splits. The splits should take time proportional
+to the length of the inner list that is split.
+<p></p>
+
+<p>
+<b>Requirement:</b> You must have a <i>public</i> member function named
+<tt>inspector</tt> with the following signature in your
+<tt>SqList</tt> class definition:
+</p><xmp>   void inspector() ;
+</xmp>
+This member function will be implemented by the grading programs, so
+you should <i>not</i> implement <tt>inspector()</tt>. It must be public
+so it can be called by the grading programs. Since <tt>inspector()</tt>
+is a member function, it will have access to <tt>SqList</tt> data
+members, in particular, it has access to <tt>L</tt>.
+<p></p>
+
+<p>
+<b>Requirement:</b> 
+Your code must not have any memory leaks. When you run your code
+under <tt>valgrind</tt> on GL, it must report:
+</p><xmp>   All heap blocks were freed -- no leaks are possible
+</xmp>
+<p></p>
+
+<p>
+<b>Requirement:</b> 
+Your implementation must be <i>efficient</i>. The running time for
+<i>n</i> operations with <i>n</i> data items stored in the
+<tt>SqList</tt> must be 
+<i>O</i>(<i>n</i> &#8730;<span style="text-decoration:overline;font-style:italic;">n</span>).
+(See "How to Submit" below.)
+</p>
+
+<br>
+<hr>
+<h2>Specifications</h2>
+
+In addition to the requirements above, your <tt>SqList</tt> class must
+have the following member functions with the specified function
+signatures and running times:
+
+
+<p></p><li> A default constructor that initializes a <tt>SqList</tt>
+properly. It should run in O(1) time.
+
+<p></p></li><li> A copy constructor with the signature
+<xmp class="code">   SqList(const SqList& other) ;
+</xmp>
+The running time of the copy constructor must be <i>O(n)</i>. (I.e.,
+copy, do not insert <i>n</i> times.)
+
+<p></p></li><li> An overloaded assignment operator with the signature
+<xmp class="code">   const SqList& operator=(const SqList& rhs) ;
+</xmp>
+The running time of the assignment operator must be <i>O(n)</i>. 
+
+<p></p></li><li> A destructor may or may not be required. This depends on your
+design. In any case, your implementation must not leak memory.
+
+<p></p></li><li> A member function <tt>consolidate()</tt> as described above.
+
+<p></p></li><li> Two member functions to insert at the beginning and at the end  of 
+a <tt>SqList</tt> with the following signatures:
+<p></p><xmp class="code">   void addFirst (const Int341& x) ;
+   void addLast (const Int341& x) ;
+</xmp><p></p>
+These member functions should call <tt>consolidate()</tt> after insertion.
+They must run in constant time, not counting the time for 
+<tt>consolidate()</tt>.
+
+<p></p></li><li> Two member functions to remove an item at the beginning 
+and at the end of a <tt>SqList</tt> with the following signatures:
+<p></p><xmp class="code">   Int341 removeFirst ()  ;
+   Int341 removeLast ()  ;
+</xmp><p></p>
+These functions must return the <tt>Int341</tt> value that was stored at the
+beginning and the end of the list. If the list is empty, then they
+should throw an <tt>out_of_range</tt> exception.
+These member functions should call <tt>consolidate()</tt> after removal.
+They should run in constant time, not counting the time for <tt>consolidate()</tt>.
+
+<p></p></li><li> A member function to insert an item at a given position of a <tt>SqList</tt>.
+<p></p><xmp class="code">   void add(int pos, const Int341& data) ;
+</xmp><p></p>
+Positions start at 0. Thus, <tt>add(0,Int341(5))</tt> should
+insert 5 at the beginning of the list. Also, if a square list
+originally held 1, 2, 3, 4, 5, then after <tt>add(2,99)</tt> the 
+list should hold 1, 2, 99, 3, 4, 5.
+<span style="color:orange;">
+If <tt>pos</tt> equals the number of items in the <tt>SqList</tt>,
+then <tt>data</tt> should be added to the end of the list.
+</span>
+If <tt>pos</tt> is not valid, throw an <tt>out_of_range</tt> exception.
+This function should call <tt>consolidate()</tt> after insertion.
+The <tt>add()</tt> function should take time
+<i>O</i>(&#8730;<span style="text-decoration:overline;font-style:italic;">n</span>)
+not counting the time for <tt>consolidate()</tt>.
+
+<p></p></li><li> A member function to remove an item from a given position of a <tt>SqList</tt>
+and return its value.
+<p></p><xmp class="code">   Int341 remove(int pos) ;
+</xmp><p></p>
+As with <tt>add()</tt>, positions start at 0.  So, if a square list
+originally held 1, 2, 3, 4, 5, then after <tt>remove(3)</tt> the 
+list should hold 1, 2, 3, 5.
+If <tt>pos</tt> is not valid, throw an <tt>out_of_range</tt> exception.
+This function should call <tt>consolidate()</tt> after removal.
+The <tt>remove()</tt> function should take time
+<i>O</i>(&#8730;<span style="text-decoration:overline;font-style:italic;">n</span>)
+not counting the time for <tt>consolidate()</tt>.
+
+<p></p></li><li> An overloaded <tt>[]</tt> operator.
+<p></p><xmp class="code">   Int341& operator[](int pos) ;
+</xmp><p></p>
+As with <tt>add()</tt>, positions start at 0.  So, if a <tt>SqList S</tt>
+originally held 1, 2, 3, 4, 5, then <tt>S[2]</tt> should return 3.
+Since a reference is returned, this <tt>[]</tt> can also be used to 
+modify the <tt>SqList</tt>. For example,
+<xmp>   S[2] = Int341(777) ;
+</xmp>
+should make the list 1, 2, 777, 4, 5.
+If <tt>pos</tt> is not valid, throw an <tt>out_of_range</tt> exception.
+The <tt>[]</tt> operator should take time
+<i>O</i>(&#8730;<span style="text-decoration:overline;font-style:italic;">n</span>).
+
+<p></p></li><li> A member function that returns the position of the first occurrence of a 
+value in a <tt>SqList</tt>.
+<p></p><xmp class="code">   int indexOf(const Int341& data) ;
+</xmp><p></p>
+If <tt>data</tt> does not appear in the list, then return -1.
+As with <tt>add()</tt>, positions start at 0.  So, if a square list
+originally held 1, 2, 3, 4, 5, then <tt>indexOf(5)</tt> 
+should return 4.
+The <tt>indexOf()</tt> function should run in <i>O</i>(<i>n</i>) time.
+
+<p></p></li><li> A member function that returns the number of items in a <tt>SqList</tt>.
+<p></p><xmp class="code">   int numItems() ; 
+</xmp><p></p>
+The <tt>numItems()</tt> function should run in constant time. This is used
+in grading.
+
+<p></p></li><li> A debugging member function:
+<p></p><xmp class="code">   void dump() ; 
+</xmp><p></p>
+The <tt>dump()</tt> member function should print out 
+the number of items in the
+<tt>SqList</tt> and for each inner list, the size of
+the inner list, each item in the inner list.
+(See sample output for recommended format.)
+The running time of <tt>dump()</tt> does not matter since it
+is used for debugging purposes only. 
+However, you should
+implement <tt>dump()</tt> in the most reliable manner possible
+(i.e., avoid calls to member functions which might themselves be buggy).
+
+<p></p></li><li> The member function <tt>inspector()</tt> as described above.
+<p></p><xmp class="code">   void inspector() ; 
+</xmp><p></p>
+
+
+
+
+<hr>
+<h2>Implementation Notes</h2> 
+
+<p>
+Before we list some recommendations and point out some traps and
+pitfalls, let's discuss <tt>Int341</tt> and why we have it.
+One of the pitfalls of using STL container classes (and
+object-oriented programming in general) is unintentional copying.
+The <tt>Int341</tt> class has just an <tt>int</tt> for its payload data.
+Its purpose is to allow us to track the number of times that 
+the constructor, copy constructor, destructor and assignment operators
+are called. Consider the following main program that uses 5 different
+methods for retrieving the last item of a <tt>list&lt;Int341&gt;</tt>
+list. The <tt>report()</tt> member function of <tt>Int341</tt> prints
+out the number of times that <tt>Int341</tt> objects were created,
+copied and destroyed. 
+(See <a href="https://userpages.umbc.edu/~chang/cs341.f17/projects/proj2files/Int341.h"><tt>Int341.h</tt></a>
+and <a href="https://userpages.umbc.edu/~chang/cs341.f17/projects/proj2files/Int341.cpp"><tt>Int341.cpp</tt></a>.)
+Note that the last two methods, using a reference and a pointer
+respectively, do not increase the number of calls.
+</p>
+
+<p></p><xmp class="code">
+//File: test341.cpp
+//
+// UMBC Fall 2017 CMSC 341 Project2
+//
+// Use the Int341 class to monitor the amount of copying
+// that takes place when you use the STL list class.
+//
+
+#include <iostream>
+#include <list>
+#include "Int341.h"
+
+using namespace std ;
+
+
+
+int main() {
+   list<Int341> L ;
+
+   Int341::m_debug = true ;
+
+   L.push_back(Int341()) ;
+   L.push_back(Int341()) ;
+   L.push_back(Int341()) ;
+   cout << "End of push_back's\n" ;
+   Int341::report() ;
+
+   cout << "\nMethod #1\n" ;
+   Int341 a ;
+   a = L.back() ;
+   Int341::report()  ;
+
+   cout << "\nMethod #2\n" ;
+   Int341 b = L.back() ;
+   Int341::report()  ;
+
+   cout << "\nMethod #3\n" ;
+   Int341 c(L.back()) ;
+   Int341::report()  ;
+
+   cout << "\nMethod #4\n" ;
+   Int341 &ref = L.back() ;
+   Int341::report()  ;
+
+   cout << "\nMethod #5\n" ;
+   Int341 *ptr ;
+   ptr = &L.back() ;
+   Int341::report()  ;
+
+   cout << "\nEnd of main\n" ;
+
+   return 0 ;
+}
+
+</xmp><p></p>
+
+<p>
+Output:
+</p><p></p><xmp class="code">
+__Int341__ Constructor called
+__Int341__ Copy constructor called
+__Int341__ Destructor called
+__Int341__ Constructor called
+__Int341__ Copy constructor called
+__Int341__ Destructor called
+__Int341__ Constructor called
+__Int341__ Copy constructor called
+__Int341__ Destructor called
+End of push_back's
+__Int341__ Report usage:
+__Int341__   # of calls to constructor         = 3
+__Int341__   # of calls to copy constructor    = 3
+__Int341__   # of calls to destructor          = 3
+__Int341__   # of calls to assignment operator = 0
+
+Method #1
+__Int341__ Constructor called
+__Int341__ Assignment operator called
+__Int341__ Report usage:
+__Int341__   # of calls to constructor         = 4
+__Int341__   # of calls to copy constructor    = 3
+__Int341__   # of calls to destructor          = 3
+__Int341__   # of calls to assignment operator = 1
+
+Method #2
+__Int341__ Copy constructor called
+__Int341__ Report usage:
+__Int341__   # of calls to constructor         = 4
+__Int341__   # of calls to copy constructor    = 4
+__Int341__   # of calls to destructor          = 3
+__Int341__   # of calls to assignment operator = 1
+
+Method #3
+__Int341__ Copy constructor called
+__Int341__ Report usage:
+__Int341__   # of calls to constructor         = 4
+__Int341__   # of calls to copy constructor    = 5
+__Int341__   # of calls to destructor          = 3
+__Int341__   # of calls to assignment operator = 1
+
+Method #4
+__Int341__ Report usage:
+__Int341__   # of calls to constructor         = 4
+__Int341__   # of calls to copy constructor    = 5
+__Int341__   # of calls to destructor          = 3
+__Int341__   # of calls to assignment operator = 1
+
+Method #5
+__Int341__ Report usage:
+__Int341__   # of calls to constructor         = 4
+__Int341__   # of calls to copy constructor    = 5
+__Int341__   # of calls to destructor          = 3
+__Int341__   # of calls to assignment operator = 1
+
+End of main
+__Int341__ Destructor called
+__Int341__ Destructor called
+__Int341__ Destructor called
+__Int341__ Destructor called
+__Int341__ Destructor called
+__Int341__ Destructor called
+
+</xmp><p></p>
+
+<p>
+The main point here is that your <tt>consolidate()</tt> function should
+not copy any data items. In particular, when you split and merge inner
+lists, you should not increase the number of calls to the
+<tt>Int341</tt> constructor, copy constructor, destructor or assignment
+operator. You can check this by calling <tt>Int341::report()</tt> before
+and after you call consolidate.
+</p>
+
+<p>
+Now we list some recommendations and point out some traps and
+pitfalls:
+</p>
+
+<ul>
+
+<p></p><li> Apply the incremental programming methodology. Implement one or
+two member functions and <i>fully debug</i> them before writing more
+code. 
+
+<p></p></li><li> Carefully study the documentation for the STL <tt>list</tt>
+container class (e.g., 
+<a href="http://www.cplusplus.com/reference/list/list/">here</a>).
+Pay attention to the parameters, return values and the effect
+that a call would have on iterators. 
+Make sure that you understand <a href="http://www.cplusplus.com/reference/iterator/">
+iterators</a> and how to use them.
+There are often several ways to 
+do the same thing with these member functions. You should choose the
+option that is more efficient and avoids copying.
+
+<p></p></li><li> Do look at the 
+<a href="http://www.cplusplus.com/reference/list/list/splice/">splice</a>
+member function for the <tt>list</tt> class.
+
+<p></p></li><li> If you are not sure what a <tt>list</tt> member function does,
+write a small program that uses the function to test it.
+
+<p></p></li><li> Review what the <tt>list</tt> destructor does and when it is
+invoked.
+
+<p></p></li><li> The <tt>consolidate()</tt> function is the hardest. Think
+through the logic carefully before you code. For example, it is possible
+to have 3 short inner lists in a row. (How?) Would your
+<tt>consolidate()</tt> handle this case correctly? What are some other
+"weird" cases?
+
+</li></ul>
+
+<hr>
+<h2>Testing</h2>
+
+<p>
+In <a href="https://userpages.umbc.edu/~chang/cs341.f17/projects/proj1.shtml">Project 1</a>, you were given an extensive
+suite of test programs. This is to provide you with an example of how
+you can test your code. For this project, you will have to write your
+own test program. The test program we provide below is just to make sure
+that your code will compile with the grading programs. Rest assured that
+the grading programs will exercise your code vigorously.
+</p>
+
+<p>Test programs: </p>
+<ul>
+  <p></p><li> Program that uses every required member function in the
+  <tt>SqList</tt> class. This includes an implementation of
+  <tt>inspector()</tt> that checks that your inner lists are not too
+  long and do not have adjacent short lists.
+  <br> <a href="https://userpages.umbc.edu/~chang/cs341.f17/projects/proj2files/p2comptest.cpp"><tt>p2comptest.cpp</tt></a>
+
+  <p></p></li><li> Programs for timing trials 
+  <br> <a href="https://userpages.umbc.edu/~chang/cs341.f17/projects/proj2files/p2timetest1.cpp"><tt>p2timetest1.cpp</tt></a>
+  <br> <a href="https://userpages.umbc.edu/~chang/cs341.f17/projects/proj2files/p2timetest2.cpp"><tt>p2timetest2.cpp</tt></a>
+  <br> <a href="https://userpages.umbc.edu/~chang/cs341.f17/projects/proj2files/p2timetest3.cpp"><tt>p2timetest3.cpp</tt></a>
+
+</li></ul>
+
+
+<hr>
+<h2>How to Submit</h2>
+
+<p> 
+You only need to submit two files: <tt>SqList.cpp</tt> and <tt>SqList.h</tt>.
+If for some reason you want to define new classes and additonal
+functions, put all the declarations in <tt>SqList.h</tt> and all the
+implementations in <tt>SqList.cpp</tt>.
+</p>
+
+<p>
+Do not submit <tt>Int341.h</tt> or <tt>Int341.cpp</tt> since those
+should not have changed.
+</p>
+
+<p>
+If you followed the instructions in the 
+<a href="https://userpages.umbc.edu/~chang/cs341.f17/projects/submission.shtml">Project Submission</a> 
+page to set up your directories, you can submit your code using 
+this Unix command:
+</p>
+<p></p><xmp>   cp SqList.h SqList.cpp ~/cs341proj/proj2/
+</xmp>
+<p></p>
+Use the Unix script command to show that your code compiles. Also run <tt>valgrind</tt> on <tt>p2comptest.cpp</tt>
+and time the 3 timing programs.
+<p></p>
+<p></p><xmp style="border: 2px solid #e1e1e1; padding:10px 20px; font-size:80%;">linux3% cd ~/cs341proj/proj2/
+linux3% script
+Script started, file is typescript
+linux3% g++ -I ../../00Proj2/ -I . ../../00Proj2/Int341.cpp SqList.cpp ../../00Proj2/p2comptest.cpp -o t0.out
+linux3% g++ -I ../../00Proj2/ -I . ../../00Proj2/Int341.cpp SqList.cpp ../../00Proj2/p2timetest1.cpp -o t1.out
+linux3% g++ -I ../../00Proj2/ -I . ../../00Proj2/Int341.cpp SqList.cpp ../../00Proj2/p2timetest2.cpp -o t2.out
+linux3% g++ -I ../../00Proj2/ -I . ../../00Proj2/Int341.cpp SqList.cpp ../../00Proj2/p2timetest3.cpp -o t3.out
+linux3% valgrind ./t0.out
+...
+linux3%  time ./t1.out
+0.293u 0.005s 0:00.51 56.8%     0+0k 0+0io 0pf+0w
+linux3% time ./t2.out
+1.111u 0.000s 0:02.26 49.1%     0+0k 0+0io 0pf+0w
+linux3% time ./t3.out
+4.303u 0.008s 0:08.11 53.0%     0+0k 0+0io 0pf+0w
+linux3% 
+
+linux3% exit
+exit
+Script done, file is typescript
+</xmp><p></p>
+
+<p>
+Do remember to exit from the script command. This creates a file called <tt>typescript</tt>
+that will record any compilation errors. Yes, we know you can edit this file, but the
+compilation errors will just show up when we compile the programs again
+and you will still get lots of points deducted. This step is to
+compel you to fix any changes needed to get your program to compile on
+GL without any errors.
+</p>
+
+<p>
+<i>Note:</i> <tt>cd</tt> to the appropriate directory if you are submitting late.
+</p>
+
+<p>
+Now you can delete the executable files with
+</p>
+<p></p><xmp>   rm t?.out
+</xmp><p></p>
+
+<p>
+Then you should just have 3 files in your submission directory. Check
+using the <tt>ls</tt> command. You can also double check that you
+are in the correct directory using the <tt>pwd</tt> command. (You should
+see your username instead of <tt>xxxxx</tt>.)
+</p><p></p><xmp class="code">linux3% ls
+SqList.cpp  SqList.h  typescript
+linux3% pwd
+/afs/umbc.edu/users/c/h/chang/pub/cs341/xxxxx/proj2
+linux3% 
+</xmp><p></p>
+
+<br>
+<hr>
+<h2>A Note on Timing</h2>
+
+<p>
+The main programs for timing above 
+( <a href="https://userpages.umbc.edu/~chang/cs341.f17/projects/proj2files/p2timetest1.cpp"><tt>p2timetest1.cpp</tt></a>,
+<a href="https://userpages.umbc.edu/~chang/cs341.f17/projects/proj2files/p2timetest2.cpp"><tt>p2timetest2.cpp</tt></a> and
+<a href="https://userpages.umbc.edu/~chang/cs341.f17/projects/proj2files/p2timetest3.cpp"><tt>p2timetest3.cpp</tt></a>)
+double the number of items and the number of calls to <tt>SqList</tt> 
+member functions each time. Since we expect the total running time to
+be
+<i>O</i>(<i>n</i> &#8730;<span style="text-decoration:overline;font-style:italic;">n</span>),
+doubling the value of <i>n</i> should increase the total running time by
+a factor of approximately 2.82. This is because
+</p>
+<blockquote>
+&nbsp;&nbsp;&nbsp;
+<i>2n</i> &#8730;<span style="text-decoration:overline;font-style:italic;"> 2n</span>
+=
+<i>2</i> &#8730;<span style="text-decoration:overline;font-style:italic;">2</span>
+<i>n</i> &#8730;<span style="text-decoration:overline;font-style:italic;">n</span>
+
+<br><br>
+</blockquote>
+<p>
+and 
+<i>2</i> &#8730;<span style="text-decoration:overline;font-style:italic;">2</span>
+&#8776; 2.82. On some systems (e.g., Mac OS X), the running times bear
+this out:
+</p>
+<p>
+</p><xmp class="code">MyMacBook% time ./t1.out
+0.978u 0.002s 0:00.98 98.9%	0+0k 0+0io 0pf+0w
+MyMacBook% time ./t2.out
+2.814u 0.003s 0:02.81 100.0%	0+0k 0+0io 0pf+0w
+MyMacBook% time ./t3.out
+8.201u 0.007s 0:08.20 100.0%	0+0k 0+0io 0pf+0w
+</xmp><p></p>
+<p>
+The ratios 2.814/0.978 &#8776; 2.877 and 8.201/2.814 &#8776; 2.914 are
+quite close to the predicted value of 2.82.
+</p>
+
+<p>
+<b>However</b>, it turns out that the Standard Template Library is not
+so standard. (See <a href="https://gcc.gnu.org/onlinedocs/libstdc++/manual/containers.html#sequences.list.size">
+note on GNU website</a>.)
+In particular the running time of the <tt>size()</tt>
+function may be <i>O</i>(1), which is what we want, or
+<i>O</i>(<i>n</i>), which is what is on GL. So, timing the same programs
+on GL gives quadratic running time.
+</p>
+<p>
+</p><xmp class="code">linux3% time t1.out
+0.292u 0.000s 0:00.29 100.0%    0+0k 0+0io 0pf+0w
+linux3% time t2.out
+1.122u 0.000s 0:01.12 100.0%    0+0k 0+0io 0pf+0w
+linux3% time t3.out
+4.248u 0.000s 0:04.25 99.7%     0+0k 0+0io 0pf+0w
+</xmp><p></p>
+<p>
+Each successive run gives roughly quadruples the running time:
+1.122/0.292 &#8776; 3.84 and 4.248/1.122 &#8776; 3.786.
+Your implementation should assume that <tt>size()</tt> takes <i>O</i>(1)
+time.
+</p>
+
+
+
+<hr>
+<h2>Discussion Topics</h2>
+
+Here are some topics to think about to help you understand square lists.
+You can discuss these topics with other students without contradicting the
+course <a href="https://userpages.umbc.edu/~chang/cs341.f17/projects/academic-conduct.shtml">Academic Conduct Policy</a>.
+
+<ol>
+<p></p><li> Suppose you start with an empty square list and keep inserting items
+in the front of the list. When does the first merge occur?
+
+<p></p></li><li> What is the smallest number of items you can have in a square
+list that has 11 inner lists?
+
+<p></p></li><li> Do we ever encounter long inner lists that have to be split
+(other than the first inner list)  if we only allowed insertion and
+removal at the beginning of the list?
+
+<p></p></li><li> After you split an inner list, is it possible that the same
+inner list has to be split again after the very next square list
+operation? after two operations? when could the next split occur?
+
+<p></p></li><li> Can you ever encounter 3 short lists in a row during the
+Consolidate procedure? Does it matter? and should you write code
+whose correctness depends on the answer to these questions?
+
+
+</li></ol>
+
+      </li></div>
+      <div id="footer" class="donotprint">
+        <div>
+          <a href="https://userpages.umbc.edu/~chang/cs341.f17/index.shtml">CMSC 341 — Fall 2017 </a>
+        </div>
+        <a href="http://www.csee.umbc.edu/">CSEE</a> |
+        <a href="http://www.umbc.edu/">UMBC</a>
+      </div>
+    </div>
+
+
+
+<img id="hzDownscaled" style="position: absolute; top: -10000px;"></body></html>
