@@ -14,7 +14,7 @@
  // INCLUDES
  ////////////////////////////////////////////////////////////////////////////////
 
- // Project includes
+// Project includes
 #include "Test.h"
 #include "SqList.h"
 #include "Int341.h"

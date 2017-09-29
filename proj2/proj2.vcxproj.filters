@@ -14,35 +14,40 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="Source Files\Classes">
-      <UniqueIdentifier>{f21d7478-83b5-46ba-a0d7-389a89953b04}</UniqueIdentifier>
+      <UniqueIdentifier>{13520c05-1a66-4efd-83e8-7d37632892e9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Classes">
-      <UniqueIdentifier>{d251a964-0e64-41d4-87ff-59995c53022e}</UniqueIdentifier>
+      <UniqueIdentifier>{4d014397-95eb-4df5-9567-280cd322df2a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Int341.h">
-      <Filter>Header Files\Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="SqList.h">
-      <Filter>Header Files\Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Test.h">
-      <Filter>Header Files\Classes</Filter>
-    </ClInclude>
+    <None Include="Makefile">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="proj2.cpp">
+    <ClCompile Include="src\driver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Int341.cpp">
+    <ClCompile Include="src\Int341.cpp">
       <Filter>Source Files\Classes</Filter>
     </ClCompile>
-    <ClCompile Include="SqList.cpp">
+    <ClCompile Include="src\SqList.cpp">
       <Filter>Source Files\Classes</Filter>
     </ClCompile>
-    <ClCompile Include="Test.cpp">
+    <ClCompile Include="src\Test.cpp">
       <Filter>Source Files\Classes</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\Int341.h">
+      <Filter>Header Files\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SqList.h">
+      <Filter>Header Files\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Test.h">
+      <Filter>Header Files\Classes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

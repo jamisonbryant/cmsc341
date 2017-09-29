@@ -37,6 +37,10 @@ SqList::SqList(void)
 {
 }
 
+SqList::SqList(OuterList l)
+{
+}
+
 SqList::SqList(const SqList& rhs)
 {
 }
@@ -51,12 +55,13 @@ SqList::~SqList(void)
 
 const SqList& SqList::operator=(const SqList& rhs) 
 {
-    return SqList();
+    L = rhs.getList();
+    return *this;
 }
 
 Int341& SqList::operator[](int pos)
 {
-    return Int341();
+    return L.front().front();
 }
 
 //////////////////////////////////////////////////////////////////////////// 
@@ -69,29 +74,34 @@ void SqList::consolidate(void)
 
 void SqList::addFirst(const Int341& x)
 {
-    
+    consolidate();
 }
 
 void SqList::addLast(const Int341& x)
 {
+    consolidate();
 }
 
 void SqList::add(int pos, const Int341& x)
 {
+    consolidate();
 }
 
 Int341 SqList::removeFirst(void)
 {
+    consolidate();
     return Int341();
 }
 
 Int341 SqList::removeLast(void)
 {
+    consolidate();
     return Int341();
 }
 
 Int341 SqList::remove(int pos)
 {
+    consolidate();
     return Int341();
 }
 

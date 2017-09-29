@@ -34,7 +34,7 @@ using namespace std;
 /**
  * Provides a menu for running project tests
  */
-int main()
+int main(int argc, char **argv)
 {
     cout << "************************************************************************" << endl;
     cout << "CMSC 341 Project 2 Driver File" << endl;
