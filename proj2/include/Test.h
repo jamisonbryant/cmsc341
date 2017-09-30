@@ -26,10 +26,24 @@ public:
     // PUBLIC METHODS
     //////////////////////////////////////////////////////////////////////////// 
 
+    // Provided tests
     int comptest(void);
     int timetest1(void);
     int timetest2(void);
     int timetest3(void);
+
+    // Custom tests
+    int testCopyConstructor(void);
+    int testNestedIterators(void);
+    int testBracketOperators(void);
+
+private:
+
+    //////////////////////////////////////////////////////////////////////////// 
+    // PRIVATE MEMBERS
+    //////////////////////////////////////////////////////////////////////////// 
+
+    int testNum = 0;    /**< Number of test being executed */
 };
 
 #endif // _TEST_H_

@@ -299,3 +299,66 @@ int Test::timetest3(void)
 
     return 0;
 }
+
+/**
+ * \brief Tests the functionality of the copy constructor
+ *
+ * \return 0 if test passes, otherwise 1
+ */
+int Test::testCopyConstructor(void)
+{
+    cout << "Running test #" << ++testNum << ": " << __FUNCTION__ << "...";
+
+    SqList s1;
+    SqList s2;
+
+    //TODO: Add items to s1's list
+
+    s2 = SqList(s1);
+
+    //TODO: Check if s2's list is identical to s1's
+
+    return 0;
+}
+
+/**
+ * \brief Tests the functionality of the nested iterators in the consolidate() function
+ *
+ * \return 0 if test passes, otherwise 1
+ */
+int Test::testNestedIterators(void)
+{
+    cout << "Running test #" << ++testNum << ": " << __FUNCTION__ << "...";
+
+    SqList::OuterList l;
+
+    //TODO: Add items to list
+
+    SqList s(l);
+
+    return 0;
+}
+
+/**
+ * \brief Tests the functionality of the nested iterators in the consolidate() function
+ *
+ * \return 0 if test passes, otherwise 1
+ */
+int Test::testBracketOperators(void)
+{
+    cout << "Running test #" << ++testNum << ": " << __FUNCTION__ << "...";
+
+    SqList l;
+
+    //TODO: Add items to list
+
+    //TODO: Retrieve elements at various specific indices
+    if (l[0].m_data != 1) return 1;
+    if (l[2].m_data != 2) return 1;
+    if (l[4].m_data != 3) return 1;
+    if (l[6].m_data != 6) return 1;
+    if (l[8].m_data != 9) return 1;
+
+    return 0;
+}
+
